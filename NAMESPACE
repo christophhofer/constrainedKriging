@@ -1,0 +1,42 @@
+import(sp)
+
+importFrom( "graphics", "par", "points", "polygon", "rect", "text",
+            "title" )
+importFrom( "grDevices", "hsv" )
+importFrom( "methods", "as", "is", "new" )
+importFrom( "sf", "st_area", "st_as_sfc", "st_bbox", "st_centroid", "st_coordinates", 
+            "st_intersection", "st_intersects", 
+            "st_polygon", "st_point", "st_sfc" )
+importFrom( "spatialCovariance", "computeV", "precompute" )
+importFrom( "stats", "delete.response", "model.frame", "model.matrix",
+            "model.response", "runif", "sd", "terms" )
+importFrom( "utils", "RShowDoc", "str" )
+
+exportClasses( "preCKrigePolygons", "preCKrigePoints" )
+exportMethods( "show", "CKrige" )
+
+export(
+  "ck.colors",
+  "CKrige",
+  "covmodel",
+  "covmodellist",
+  "f.point.block.cov",
+  "preCKrige",
+  "preCKrigePoints",     # generator function of class preCKrigePoints
+  "preCKrigePolygons",   # generator function of class preCKrigePolygons
+  "K"
+) 
+
+
+S3method( "print", "CKrige.exout.points" )
+S3method( "print", "CKrige.exout.polygons" )
+S3method( "print", "covmodel" )
+
+S3method( "summary", "preCKrigePoints" )
+S3method( "summary", "preCKrigePolygons" )
+S3method( "summary", "CKrige.exout.polygons" )
+S3method( "summary", "CKrige.exout.points" )
+
+S3method( "plot", "preCKrigePolygons" )
+
+useDynLib( constrainedKriging )
