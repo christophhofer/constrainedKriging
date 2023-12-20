@@ -1,7 +1,7 @@
 # Christoph Hofer 5-4-2010
-# 
-# 2023-11-17 A. Papritz 
-# changes in function covmodellist: 
+#
+# 2023-11-17 A. Papritz
+# changes in function covmodellist:
 #   - elimination of duplicated entry for gencauchy
 #   - correction of number of parameters and bounds for circular
 #   - formatting of code
@@ -48,34 +48,34 @@ covmodellist <- function(p)
   }
   #n.paramter = number of parameter
   #
-  return( 
-    invisible( 
-      list( 
+  return(
+    invisible(
+      list(
         model = c(
-          "bessel", "cauchy", "cauchytbm", "circular", "constant", 
-          "cubic", "dampedcosine", "exponential", "gauss", 
-          "gencauchy", "gengneiting", "gneiting", "hyperbolic", "lgd1", 
-          "matern", "nugget", "penta", "power", "qexponential", 
+          "bessel", "cauchy", "cauchytbm", "circular", "constant",
+          "cubic", "dampedcosine", "exponential", "gauss",
+          "gencauchy", "gengneiting", "gneiting", "hyperbolic", "lgd1",
+          "matern", "nugget", "penta", "power", "qexponential",
           "spherical", "stable", "wave", "whittle"
         ),
         n.parameter = c(
-          1, 1, 2, 0, 0, 
-          0, 1, 0, 0, 
-          2, 2, 0, 3, 2, 
-          1, 0, 0, 1, 1, 
+          1, 1, 2, 0, 0,
+          0, 1, 0, 0,
+          2, 2, 0, 3, 2,
+          1, 0, 0, 1, 1,
           0, 1, 0, 1
         ),
         parameter.interval = list(
-          list(0), list(0), list(c(0,2), c(0)), list(NULL), list(NULL), 
-          list(NULL), list(c(1)), list(NULL), list(NULL), 
-          list(c(0,2), c(0)), list(c(1, 2.5), c(2, 3.5), c(3, 4.5)), list(NULL), list(c(0), c(0), c(0)), list(c(0, 0.5), c(0)), 
+          list(0), list(0), list(c(0,2), c(0)), list(NULL), list(NULL),
+          list(NULL), list(c(1)), list(NULL), list(NULL),
+          list(c(0,2), c(0)), list(c(1, 2.5), c(2, 3.5), c(3, 4.5)), list(NULL), list(c(0), c(0), c(0)), list(c(0, 0.5), c(0)),
           list(c(0)), list(NULL), list(NULL), list(c(1.5)), list(c(0,1)),
           list(NULL), list(c(0,2)), list(NULL), list(c(0))
         )
       )
     )
   )
-  
+
 }# end of function covmodellist
 
 covmodel <- function(modelname, mev, nugget, variance, scale, parameter = NULL, add.covmodel)
@@ -90,32 +90,32 @@ covmodel <- function(modelname, mev, nugget, variance, scale, parameter = NULL, 
   # check modelname
   if( missing( modelname ) ){
     covmodellist(); return(invisible())}
-  
+
   if( sum( modelname == m$model ) == 0 ){
     covmodellist(); stop(
       paste( modelname,
         " is not a proper covariance model \n", "use one of the listed above \n", sep =""))
   }
-  
+
   if( missing( mev ) ){ mev <- 0 }
   if( missing( nugget ) ){ nugget <- 0 }
   if( missing( variance ) ){ variance <- 0 }
   if( missing( scale ) ){ scale  <- 0 }
-  
-  
+
+
   # check whether the user entered the right numbers of parmeters
   if( length( parameter) != m$n.parameter[ modelname == m$model ] )
   {
     covmodellist();
-    
+
     stop( paste( "wrong parametrisation \n", modelname," has ", m$n.parameter[ which( modelname ==
           m$model ) ], " parameter \n", sep = "" ) )
   }
-  
+
   # check parameter values
   # one paramter
-  
-  
+
+
   if( length( parameter) == 1 )
   {
     a <- m$parameter.interval[ modelname == m$model ][[ 1 ]][[ 1 ]]
@@ -128,7 +128,7 @@ covmodel <- function(modelname, mev, nugget, variance, scale, parameter = NULL, 
     {
       stop("parameter a  has  to be in (0,2]")
     }
-    
+
     if( modelname == "exponential" && parameter < a[1] || modelname == "exponential" && parameter > a[2] )
     {
       stop("parameter a has to be in (0,2]")
@@ -139,15 +139,15 @@ covmodel <- function(modelname, mev, nugget, variance, scale, parameter = NULL, 
           m$parameter.interval[ modelname == m$model ][[ 1 ]][ 1 ], sep ="") )
     }
   }
-  
+
   # check parameter values
   # two parameters
   # a = (0,2], b > 0
-  
+
   if(length( parameter) == 2 )
   {
     p.check = FALSE
-    
+
     if( modelname == "gengneiting")
     {
       a1 <- m$parameter.interval[ modelname == m$model ][[1]][[1]][1]
@@ -204,11 +204,11 @@ covmodel <- function(modelname, mev, nugget, variance, scale, parameter = NULL, 
       }
     }
   }
-  
+
   ### create covmodel
   covmodel <- list( list( model = modelname, variance = variance,
       scale = scale, parameter = parameter ) )
-  
+
   ### create covmodel with nugget (variance of a microscale white noise spatail process
   if( nugget != 0)
   {
@@ -222,7 +222,7 @@ covmodel <- function(modelname, mev, nugget, variance, scale, parameter = NULL, 
       scale = 0, parameter = NULL ) )
   class(covmodel.mev) <- "list"
   covmodel <- c(covmodel.mev,  covmodel  )
-  
+
   ### add an existing covmodel to the generated one
   if( !missing( add.covmodel ) )
   {
@@ -235,12 +235,12 @@ covmodel <- function(modelname, mev, nugget, variance, scale, parameter = NULL, 
     {
       stop("add.covmodel is not a covmodel object")
     }
-    
+
   }
-  
+
   class( covmodel ) <- "covmodel"
   return(  covmodel )
-  
+
 }
 
 
@@ -251,7 +251,7 @@ print.covmodel<- function(x,...)
   if (!inherits(x, "covmodel"))
   stop("Not a covmodel list")
   t.m.n <- length(x)
-  
+
   t.m <- unlist( lapply(x, function(x){return( x$model ) } ) )
   t.psill <- unlist( lapply(x, function(x){return(x$variance)}) )
   t.scale <- unlist( lapply(x, function(x){ return( x$scale ) } ) )
@@ -266,7 +266,7 @@ print.covmodel<- function(x,...)
       if(is.null(t.p[[ i ]])){t.p[[ i ]] <- NA}
       t.p.mat[i,] <- t.p[[ i ]]
     }
-    
+
     colnames(t.p.mat) <- letters[1:t.p.max]
     t.d <- data.frame( matrix(ncol = 3 + t.p.max, nrow = t.m.n) )
     t.d <- cbind(t.m, t.psill, t.scale, t.p.mat)

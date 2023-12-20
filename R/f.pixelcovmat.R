@@ -31,6 +31,6 @@ f.pixelcovmat<- function(
       ) * model[[ i ]]$variance + pixcm
       t.q <- t.q + 1
     } # end if
-  } # end for 
+  } # end for
   return( pixcm )
 } ### end of function

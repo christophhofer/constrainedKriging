@@ -13,13 +13,13 @@
 ## 2023-01-25 A. Papritz revised class definition
 preCKrigePolygons <- setClass(
   "preCKrigePolygons",
-  slots = c( 
-    covmat = "list", 
-    se.covmat = "list", 
+  slots = c(
+    covmat = "list",
+    se.covmat = "list",
     pixconfig = "list",
-    pixcovmat = "matrix",  
-    model = "list", 
+    pixcovmat = "matrix",
+    model = "list",
     data = "data.frame",
-    polygons = "list" 
+    polygons = "list"
   )
 )

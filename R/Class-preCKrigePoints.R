@@ -12,11 +12,11 @@
 ## 2023-01-25 A. Papritz revised class definition
 preCKrigePoints <- setClass(
   "preCKrigePoints",
-  slots = c( 
-    covmat = "list", 
-    posindex = "list", 
+  slots = c(
+    covmat = "list",
+    posindex = "list",
     model = "list",
-    data = "data.frame", 
-    coords = "matrix" 
+    data = "data.frame",
+    coords = "matrix"
   )
 )
